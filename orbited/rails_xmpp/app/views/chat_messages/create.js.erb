@@ -1,5 +1,6 @@
 $('#status').empty(); // TODO: enhance error messages
-$('#send_chat_message')[0].reset();
+//$('#send_chat_message')[0].reset();
+$('#chat_message_content').val('');
 
 onSendMessage('<%= escape_javascript(@jid) %>', '<%= escape_javascript(@jid) %>', '<%= escape_javascript(@message.try(:to_param)) %>');
 

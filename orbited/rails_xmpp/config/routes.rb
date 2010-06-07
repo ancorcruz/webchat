@@ -9,12 +9,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :user_session
   map.resources :users, :member => { :block => :put, :unblock => :put }
 
-  map.chat "/chat.js", :controller => :chat, :action => :show, :format => "js"
-
   # The priority is based upon order of creation: first created -> highest priority.
   map.resources :chat_messages,
     :only => [:create, :show],
-    :collection => {:unreaded_messages_count_by_buddy => :get, :last_messages_by_buddy => :get}
+    :collection => {:unreaded_messages_count_by_buddy => :get, :last_messages_by_buddy => :get},
+    :member => {:is_blocked => :get}
+
+  map.chat "/chat.js", :controller => :chat, :action => :show, :format => "js"
+  map.popup "/chat/popup", :controller => :chat, :action => :popup
 
   # Sample of regular route:
   #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'

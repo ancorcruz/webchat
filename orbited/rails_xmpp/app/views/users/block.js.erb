@@ -1,8 +1,10 @@
 var selected_contact_login = '<%= escape_javascript(@contact.login) %>'
 var selected_contact = selected_contact_login + '@localhost'
 
-if ($('#buddy_' + $.escape(selected_contact)).length == 1) {
-  onRemoveContact(selected_contact + '/Orbited', selected_contact);
+var popupWin = null;
+getPopup();
+if (!popupWin.closed) {
+  popupWin.blockContact(selected_contact);
 }
 
 $('tr#' + selected_contact_login).addClass('blocked');

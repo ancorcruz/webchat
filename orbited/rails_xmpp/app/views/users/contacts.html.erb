@@ -1,15 +1,3 @@
-<%# ToDo: Move javascript imports to chat view %>
-<% content_for :head do %>
-  <%= javascript_include_tag "/static/Orbited" %>
-  <script>TCPSocket = Orbited.TCPSocket</script>
-  <%= javascript_include_tag "/static/protocols/xmpp/xmpp" %>
-  <%= javascript_include_tag "chat" %>
-  <script>
-    user_name = "<%= current_user.login %>";
-    user_token = "<%= current_user.single_access_token %>";
-  </script>
-<% end %>
-
 <h1>All users</h1>
 
 <table>
@@ -21,7 +9,11 @@
   <tr id='<%= contact.login %>' <%= " class='blocked'" if current_user.blocked?(contact) %>>
     <td><%=h contact.login %></td>
     <td><%=h contact.last_activity_in_words %></td>
-    <td class='action_link'><%= link_to_remote 'Chat', { :url => chat_path(:contact_id => contact.to_param, :format => "js"), :method => :get }, { :class => ('hidden' if current_user.blocked?(contact)) } %></td>
+    <td class='action_link'>
+      <%= link_to_remote 'Chat', { :url => chat_path(:contact_id => contact.to_param, :format => "js"), :method => :get }, { :class => ('hidden' if current_user.blocked?(contact)) } %>
+      <%#= link_to 'Chat', chat_path(:contact_id => contact.to_param), :popup => ['USERS LIST', 'height=400,width=300,status=no,menubar=no,location=no,toolbar=no,scrollbars=yes'] %>
+      <%#=, { :class => ('hidden' if current_user.blocked?(contact)) } %>
+    </td>
     <td class='action_link'>
       <%= link_to_remote 'Block', { :url => block_user_path(:id => contact.to_param, :format => "js"), :method => :put }, { :class => ('hidden' if current_user.blocked?(contact)) } %>
       <%= link_to_remote 'Unblock', { :url => unblock_user_path(:id => contact.to_param, :format => "js"), :method => :put }, { :class => ('hidden' unless current_user.blocked?(contact)) } %>
@@ -30,7 +22,7 @@
 <% end %>
 </table>
 
-
-<div id="chat_popup" class="hidden stroke_border">
-  <%= render :partial => 'chat/show' %>
-</div>
+<%#= link_to "XAT", chat_path(:contact_id => User.last.to_param), :popup => ['USERS LIST', 'height=400,width=300,status=no,menubar=no,location=no,toolbar=no,scrollbars=yes'] %>
+<%#= link_to_function "USERS", "window.open(#{users_path().to_json}, 'USERS LIST', 'height=400,width=300,status=no,menubar=no,location=no,toolbar=no')" %>
+<%#= link_to "USERS2", users_path(), :popup => ['USERS LIST', 'height=400,width=300,status=no,menubar=no,location=no,toolbar=no'] %>
+<%#= link_to_function "SHOW USER", "window.open(#{user_path(User.first).to_json}, 'USERS LIST', 'height=400,width=300,status=no,menubar=no,location=no,toolbar=no')" %>

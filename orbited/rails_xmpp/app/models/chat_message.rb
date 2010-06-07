@@ -18,6 +18,10 @@ class ChatMessage < ActiveRecord::Base
   aasm_event :read do
     transitions :to => :readed, :from => :unreaded
   end
+
+  def blocked?
+    recipient.blocked_contacts.include? sender
+  end
 end
 
 
